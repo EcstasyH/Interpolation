@@ -1,2 +1,2 @@
-# Interpolation
-Synthesizing polynomial Craig interpolations over non-compact regions via homogenization 
+# HSCC24
+Synthesizing barrier certificates over non-compact regions via homogenization 
