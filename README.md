@@ -18,3 +18,6 @@ Please following the steps to prepare the environment:
    - run `exit()` to quit the interactive session
 4. apply for an academic license to use Mosek, see https://www.mosek.com/products/academic-licenses/
 5. (optional, if you want to verify the results and plot the graphs) install Mathematica
+   - Mathematica becomes inefficient when the problem instance involves too many variables and/or the degree is too large. 
+
+## Run Benchmarks
