@@ -1,4 +1,4 @@
-# CAV24
+# Craig
 Synthesizing Craig Interpolations over non-compact regions via homogenization. 
 
 ## Requirement
