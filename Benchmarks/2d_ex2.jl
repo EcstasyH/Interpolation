@@ -35,6 +35,6 @@ s2 = [
         [g6]
 ];
 # degree of interpolation template
-deg = 6
+deg = 7
 
 

@@ -27,6 +27,6 @@ s2 = [
      ];    
 
 # degree of interpolation template
-deg = 6
+deg = 9
 
 
