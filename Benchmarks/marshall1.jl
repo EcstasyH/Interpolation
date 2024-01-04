@@ -8,12 +8,12 @@ zvars = [z]
 # s1 includes xvars + yvars
 # >= 0 
 s1 = [ 
-        [x^3]
+        [-1-x]
 ];
 
 # s1 includes xvars + zvars
 s2 = [  
-        [-1-x]
+        [x^3]
      ];    
 
 # degree of interpolation template
