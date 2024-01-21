@@ -1,14 +1,18 @@
 
-@polyvar x y z a1 R r 
+@polyvar x y z a R r 
 # do NOT use x0 as a variable, x0 is used as the homogenization variable
 xvars = [x, y, z]
-yvars = [a1]
+yvars = [a]
+
 zvars = [R, r]
 
 f1 = 1 + 0.1*z^4 - x^4 - y^4 
 f2 = 10*z^4 - x^4 - y^4
-g1 = 4*5^2*(x^2 + y^2) - (x^2 + y^2 + z^2 + 5^2 - 0.75^2)^2
-
+g1 = 4*R^2*(x^2 + y^2) - (x^2 + y^2 + z^2 + R^2 - r^2)^2
+g2 = R - 4
+g3 = 6 - R
+g4 = r - 0.5
+g5 = 1 - r 
 
 
 # s1 includes xvars + yvars
@@ -19,11 +23,10 @@ s1 = [
 
 # s1 includes xvars + zvars
 s2 = [  
-        [g1]
+        [g1, g2, g3, g4, g5]
      ];    
 
 # degree of interpolation template
-# deg = 2
 deg = 2
 
 
