@@ -1,8 +1,10 @@
 
-@polyvar x y z a R r 
+# sec 1: illstrative
+
+@polyvar x y z  R r 
 # do NOT use x0 as a variable, x0 is used as the homogenization variable
 xvars = [x, y, z]
-yvars = [a]
+yvars = [ ]
 
 zvars = [R, r]
 

@@ -1,9 +1,12 @@
 
+# sec 5: example 2 
+
 @polyvar x y a b
 # do NOT use x0 as a variable, x0 is used as the homogenization variable
+
 xvars = [x, y]
-yvars = [a]
-zvars = [b]
+yvars = []
+zvars = []
 
 
 # s1 includes xvars + yvars
@@ -34,6 +37,7 @@ s2 = [
         [g3, g4, g5],
         [g6]
 ];
+
 # degree of interpolation template
 deg = 7
 

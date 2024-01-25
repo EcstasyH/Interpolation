@@ -1,5 +1,5 @@
-# Craig
-Synthesizing Craig Interpolations over non-compact regions via homogenization. 
+# Nonlinear Craig Interpolant Synthesis
+Synthesizing Craig Interpolants over unbounded domains. 
 
 ## Requirement
 - Julia (version >= 1.9.2): to formulate SOS relaxations and transform them into SDPs
@@ -7,10 +7,10 @@ Synthesizing Craig Interpolations over non-compact regions via homogenization.
 - Mathematica (version >= 12): to verify interpolations and plot graphs.
 
 Please following the steps to prepare the environment:
-1. install julia from https://julialang.org/
-2. Clone this repository from github
+1. Clone this repository from github
    - run `git clone https://github.com/EcstasyH/Interpolation`
    - run `cd Interpolation` 
+1. install julia from https://julialang.org/
 3. install necessary julia packages
    - run `julia` to start an interactive session 
    - run `import Pkg`
@@ -22,9 +22,9 @@ Please following the steps to prepare the environment:
 
 ## Run Benchmarks
 
-Benchmark files are stored in the `Benchmarks` directory. For example, if you want to run the two-dimensional benchmark `example2d.jl`, edit the content of `run.jl` file to `name = "example2d"` on line 172. Then, run `julia run.jl`.
+See `run_SOS.jl` file or the corresponding juypter notebook file `run_SOS.ipynb`.
 
-Due to the precompiling mechanism of Julia, running `julia run.jl` for each instance is very inefficient. Hence, I suggest (1) using ==Jupyter Notebook== (package `IJulia`) to work with the `run_all.ipynb` file. Or (2) open an iteractive session by `julia`, and then run `include("run.jl")`
+The implementation based on TSSOS package can be found in file `run_TSSOS.ipynb`.
 
 ## Verify Results
-The results for benchmarks all stored in `Results` directory. We use Mathematica to read these results and verify them. Please refer to the content of `Verify.nb` file. 
+The intermediate results are stored in `Results` directory. We use Mathematica to read these results and verify them. Please refer to the content of `Verify.nb` file. 

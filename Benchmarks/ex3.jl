@@ -1,4 +1,6 @@
 
+# sec 5: example 3 
+
 @polyvar x y a b c d
 # do NOT use x0 as a variable, x0 is used as the homogenization variable
 xvars = [x, y]
