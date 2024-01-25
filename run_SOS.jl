@@ -1,8 +1,5 @@
-# compute interpolation using three methods
-
-# run for the first time
-# using Pkg
-# Pkg.activate(".")
+using Pkg
+Pkg.activate(".")
 
 using SumOfSquares
 using DynamicPolynomials
@@ -71,10 +68,10 @@ function interpolation(deg)
     @variable(model, h, Poly(monos))
     
     for i = 1:length(s1region)
-        @constraint(model, h - 1 >= 0, domain = s1region[i], maxdegree =  maxdegree(h)+relax)
+        @constraint(model, h - 1 >= 0, domain = s1region[i], maxdegree =  deg+relax)
     end
     for i = 1:length(s2region)
-        @constraint(model, - h - 1 >= 0, domain = s2region[i], maxdegree =  maxdegree(h)+relax)
+        @constraint(model, - h - 1 >= 0, domain = s2region[i], maxdegree =  deg+relax)
     end
     for i in coefficients(h)
         @constraint(model, -1<=i<=1)
@@ -125,10 +122,10 @@ function interpolation_homo(deg)
     @variable(model, h, Poly(monos))
     
     for i = 1:length(s1region_homo)
-        @constraint(model, homo(h) >= 0 , domain = s1region_homo[i], maxdegree = maxdegree(h)+relax)
+        @constraint(model, homo(h) >= 0 , domain = s1region_homo[i], maxdegree = deg+relax)
     end    
     for i = 1:length(s2region_homo)
-        @constraint(model, homo(-h) >= 0 , domain = s2region_homo[i], maxdegree =  maxdegree(h)+relax)
+        @constraint(model, homo(-h) >= 0 , domain = s2region_homo[i], maxdegree =  deg+relax)
     end
     for i in coefficients(h)
         @constraint(model, -1<=i<=1)
@@ -179,10 +176,10 @@ function interpolation_semi(deg)
     @variable(model, h2, Poly(monos))    
     
     for i = 1:length(s1region_homo)
-        @constraint(model, homo(h1+w*h2) >= 0 , domain = intersect(s1region_homo[i], @set(w>=0), @set(θ-w^2==0)), maxdegree = maxdegree(h)+relax)
+        @constraint(model, homo(h1+w*h2) >= 0 , domain = intersect(s1region_homo[i], @set(w>=0), @set(θ-w^2==0)), maxdegree = deg+relax)
     end    
     for i = 1:length(s2region_homo)
-        @constraint(model, homo(-h1-w*h2) >= 0 , domain = intersect(s2region_homo[i], @set(w>=0), @set(θ-w^2==0)), maxdegree =  maxdegree(h)+relax)
+        @constraint(model, homo(-h1-w*h2) >= 0 , domain = intersect(s2region_homo[i], @set(w>=0), @set(θ-w^2==0)), maxdegree =  deg+relax)
     end
     for i in coefficients(h1)
         @constraint(model, -1<=i<=1)
@@ -211,6 +208,7 @@ function interpolation_semi(deg)
     end
 end
 
+# compute interpolation using three methods
 function run(name, method1, method2, method3)
     include("./Benchmarks/"*name*".jl");
 
@@ -265,7 +263,7 @@ function run(name, method1, method2, method3)
     if method1 
         # print results based on the method in CAV20
         file = open("./Results/sufficient/"*name*".txt", "w");
-        stats = @timed h = interpolation(deg,num_tech)
+        stats = @timed h = interpolation(deg)
         println("using CAV20 technique:")
         @show h
         write(file, Base.replace(string(h),"e"=>"*10^")*"\n")
@@ -276,8 +274,8 @@ function run(name, method1, method2, method3)
     if method2
         # print homogenization approach results
         file = open("./Results/homo/"*name*".txt", "w");
-        stats = @timed h = interpolation_homo(deg,num_tech)
-        println("using homogenization technique:");
+        stats = @timed h = interpolation_homo(deg)
+        println("Polynomial Interpolant:");
         @show h
         write(file, Base.replace(string(h),"e"=>"*10^")*"\n")
         write(file, string(stats.time)*"\n") 
@@ -287,8 +285,8 @@ function run(name, method1, method2, method3)
     if method3
         # print semialgebraic approach results
         file = open("./Results/nonpoly/"*name*".txt", "w");
-        stats = @timed h = interpolation_nonpoly(deg,num_tech)
-        println("using nonpoly technique:")
+        stats = @timed h = interpolation_semi(deg)
+        println("Semialgebraic Interpolant:")
         @show h
         write(file, Base.replace(string(h),"e"=>"*10^")*"\n")
         write(file, string(stats.time)*"\n") 

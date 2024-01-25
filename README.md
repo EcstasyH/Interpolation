@@ -22,7 +22,7 @@ Please following the steps to prepare the environment:
 
 ## Run Benchmarks
 
-See `run_SOS.jl` file or the corresponding juypter notebook file `run_SOS.ipynb`.
+Just `julia run_SOS.jl`  or use the corresponding juypter notebook file `run_SOS.ipynb`.
 
 The implementation based on TSSOS package can be found in file `run_TSSOS.ipynb`.
 
