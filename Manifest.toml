@@ -1988,7 +1988,7 @@ version = "1.0.3"
 
 [[deps.TSSOS]]
 deps = ["COSMO", "ChordalGraph", "Dualization", "DynamicPolynomials", "Graphs", "Ipopt", "JuMP", "LinearAlgebra", "MetaGraphs", "MosekTools", "MultivariatePolynomials", "Printf", "SemialgebraicSets", "SparseArrays"]
-git-tree-sha1 = "d19751e600bf0128753e571b59398e0774be1b0f"
+git-tree-sha1 = "af498cc4706f0ffd2df051b6c2433360390a2bae"
 repo-rev = "master"
 repo-url = "https://github.com/wangjie212/TSSOS"
 uuid = "81648402-ffe6-11e9-2394-0de17a9afdad"

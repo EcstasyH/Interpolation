@@ -22,9 +22,9 @@ Please following the steps to prepare the environment:
 
 ## Run Benchmarks
 
-Just `julia run_SOS.jl`  or use the corresponding juypter notebook file `run_SOS.ipynb`.
+Just `julia run.jl`  or use the corresponding juypter notebook file `run_TSSOS.ipynb`.
 
-The implementation based on TSSOS package can be found in file `run_TSSOS.ipynb`.
+The implementation based on SumOfSquares package can be found in file `run_SOS.ipynb`, which gives similar results to all examples.
 
 ## Verify Results
 The intermediate results are stored in `Results` directory. We use Mathematica to read these results and verify them. Please refer to the content of `Verify.nb` file. 

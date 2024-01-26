@@ -24,3 +24,5 @@ s2 = [
 # degree of interpolation template
 deg = 4
 
+# for tssos
+d_relax = 3
