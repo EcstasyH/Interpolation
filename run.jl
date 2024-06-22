@@ -4,15 +4,14 @@ Pkg.activate(".")
 using JuMP
 using MosekTools
 using DynamicPolynomials
-using MultivariatePolynomials
 using TSSOS
 using LinearAlgebra
 
-# Parameters 
-ϵ = 10^(-5)
 
-@polyvar x0 w
-# @polyvar w
+ϵ = 10^(-5) # ignore small coefficients within [-ϵ,ϵ]
+@polyvar x0 # homogenization variable
+@polyvar w  # introduced for semialgebraic interpolants
+
 
 function scale_list(list)
     # scale a list of floats so that the largest absolute value is 1
@@ -26,7 +25,7 @@ function scale_list(list)
 end
 
 function interpolation(deg)
-    # synthesize Craig interpolation using the standard Putinar theorem
+    # synthesize Craig interpolation using CAV20 method
     # deg: degree of interpolation template, h(x,y)
     
     model = Model(optimizer_with_attributes(Mosek.Optimizer))
@@ -34,7 +33,6 @@ function interpolation(deg)
     
     h,hc,hb = add_poly!(model, xvars, deg)
     
-    # just avoid bugs when yvars is empty
     if length(yvars)==0
         phivars = xvars
     else
@@ -46,7 +44,6 @@ function interpolation(deg)
         psivars = [xvars; zvars]
     end
 
-    # homogenization
     for i = 1:length(s1)
         model,info1 = add_psatz!(model, h-1,  phivars, s1[i], [],  d_relax, QUIET=true, CS=false, TS=false, Groebnerbasis=true)
     end
@@ -57,7 +54,6 @@ function interpolation(deg)
     for i in hc
         @constraint(model, -1<=i<=1)
     end
-    # @constraint(model, sum(hc)==1)
 
     optimize!(model)
     status = termination_status(model)
@@ -77,7 +73,7 @@ function interpolation(deg)
 end
 
 function interpolation_homo(deg)
-    # synthesize Craig interpolation using the homogenization formulation
+    # synthesize polynomial Craig interpolation using the homogenization formulation
     # deg: degree of interpolation template, h(x,y)
 
     model = Model(optimizer_with_attributes(Mosek.Optimizer))
@@ -106,7 +102,6 @@ function interpolation_homo(deg)
     for i in hc
         @constraint(model, -1<=i<=1)
     end
-    # @constraint(model, sum(hc)==1)
 
     optimize!(model)
     status = termination_status(model)
@@ -126,8 +121,7 @@ function interpolation_homo(deg)
 end
 
 function interpolation_semi(deg)
-    # synthesize semialgebraic interpolant
-    # deg: degree of interpolation template, h1(x) h2(x)
+    # synthesize semialgebraic interpolant 
     
     model = Model(optimizer_with_attributes(Mosek.Optimizer))
     set_optimizer_attribute(model, MOI.Silent(), true)
@@ -182,12 +176,11 @@ function interpolation_semi(deg)
     return h_val
 end
 
-
-
 # compute interpolation using three methods
 function run_tssos(name, method1, method2, method3)
+    # to print results Mathematica can read
     include("./Benchmarks/"*name*".jl");
-
+    println("======", name, "======");
     # print problem instance (so that Mathematica can read)
     file = open("./Results/problem/"*name*".txt", "w");
     write(file, "{")
@@ -275,4 +268,10 @@ putinar = true
 homogenization = true
 semialgebraic = true
 
-run_tssos("ex3", putinar, homogenization, semialgebraic)
+# to run an example using all three methods
+# run_tssos("ex2", putinar, homogenizatio, semialgebraic)
+
+run_tssos("ex2", false, homogenization, false)
+run_tssos("ex3", false, false, semialgebraic)
+run_tssos("ex4", false, homogenization, semialgebraic)
+
