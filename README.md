@@ -41,7 +41,7 @@ Note: The VM image also contains the artifact our another paper ''On Completenes
 ## Important Files
 
 ```
-BCunbound/
+Interpolation/
 - Benchmarks/      % all benchmarks written in Julia
 - Results/         % SDP computation results
    - problem/      % benchmark information for Mathematica to read
@@ -62,9 +62,6 @@ The purpose of the artifact is to substantiate the numerical results and plots r
 - To verify results in the first step, run `wolframscript verify.wls`. The wolframe engine reads the results in `Results/` directory and employs symbolic methods to verify them. 
 
 ## Claims
-1. The experimental results may have a numerical error/disturbance of 10^-5 compared to the data in the paper.   
-
-2. Drawing the 3D graph for Example 4 takes about 10 minutes on a Mac lap-top with Apple M2 chip and 8GB memory. So it is likely that it will takes much longer time in a virtual machine. 
-
+The experimental results may have a numerical error/disturbance of 10^-5 compared to the data in the paper.   
 
 If you have any questions, please feel free to contact me (wuhao@ios.ac.cn).

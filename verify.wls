@@ -69,6 +69,7 @@ verifyResults[benchmark_, plot_, plotRange_, verifyTimeLimit_] :=
     ];
    If[result[[2]] == 1,
     Print["Valid solution."];
+    Print["BC: ", hHomo];
     ];
    If[result[[2]] == 2,
     Print["Verify out of time."];
@@ -103,6 +104,7 @@ verifyResults[benchmark_, plot_, plotRange_, verifyTimeLimit_] :=
     ];
    If[result[[2]] == 1,
     Print["Valid solution."];
+    Print["BC: ", hNP];
     ];
    If[result[[2]] == 2,
     Print["Verify out of time."];
@@ -205,9 +207,9 @@ RGBColor[0.363898, 0.618501, 0.782349]}, PlotPoints -> 100];
   hNPPlot = 
    RegionPlot[ ReplaceAll[hNP, w -> Sqrt[Total[xvarSet^2]]] >= 0, 
     Evaluate[ranges], 
-    PlotStyle -> {Opacity[0.15], RGBColor[
-      0.363898, 0.618501, 0.782349]}, BoundaryStyle -> {
-RGBColor[0.363898, 0.618501, 0.782349]}, PlotPoints -> 100];
+    PlotStyle -> {Opacity[0.15], RGBColor[1, 0.75, 0]}, 
+    BoundaryStyle -> {
+RGBColor[1, 0.75, 0]}, PlotPoints -> 100];
   Export[FileNameJoin[{".", "Results", "plots", 
      StringJoin[benchmark, ".pdf"]}], 
    Show[s1Plot, s2Plot, hPlot, hHomoPlot, hNPPlot, 
@@ -216,38 +218,43 @@ RGBColor[0.363898, 0.618501, 0.782349]}, PlotPoints -> 100];
 
 myPlot3D [benchmark_, xvarSet_, yvarSet_, zvarSet_, xvarRange_, s1_, 
    s2_, h_, hHomo_, hNP_] := Module[
-   {ranges, s1Cons, s2Cons, s1Plot, s2Plot, hPlot, hHomoPlot},
+   {ranges, s1Cons, s2Cons, s1Plot, s2Plot, hPlot, hHomoPlot, hNPPlot},
    (*inefficient, try other tools*)
    Print["Plot3D..."];
    ranges = Sequence @@ MapThread[Prepend, {xvarRange, xvarSet}];
    ranges = Sequence @@ MapThread[Prepend, {xvarRange, xvarSet}];
    s1Cons = Or @@ (getRegionSAS[#] & /@ s1);
    s2Cons = Or @@ (getRegionSAS[#] & /@ s2);
+   If[benchmark == "ex4",
+    s2Cons = s2Cons /. {r -> 0.75, R -> 5}];
    s1Plot = 
     RegionPlot3D[Resolve[Exists[yvarSet, s1Cons], Reals], 
      Evaluate[ranges], 
-     PlotStyle -> {Opacity[0.65], RGBColor[
-       0.28026441037696703`, 0.715, 0.4292089322474965]}, 
-     BoundaryStyle -> None , PlotPoints -> 100];
+     PlotStyle -> 
+      Directive[Opacity[0.65], RGBColor[
+       0.28026441037696703`, 0.715, 0.4292089322474965]], 
+     PlotPoints -> 100, BoundaryStyle -> None , Mesh -> None];
    s2Plot = 
     RegionPlot3D[Resolve[Exists[zvarSet, s2Cons], Reals], 
      Evaluate[ranges], 
-     PlotStyle -> {Opacity[0.65], RGBColor[0.915, 0.3325, 0.2125]}, 
-     BoundaryStyle -> None, PlotPoints -> 100];
-   hPlot = 
-    RegionPlot3D[h - 1 >=  0, Evaluate[ranges], 
-     PlotStyle -> {Opacity[0.15], RGBColor[1, 0.75, 0]}, 
-     BoundaryStyle -> {
-RGBColor[1, 0.75, 0]}, PlotPoints -> 100];
+     PlotStyle -> 
+      Directive[Opacity[0.65], RGBColor[0.915, 0.3325, 0.2125]], 
+     PlotPoints -> 100, BoundaryStyle -> None, Mesh -> None];
    hHomoPlot = 
     RegionPlot3D[hHomo >= 0, Evaluate[ranges], 
-     PlotStyle -> {Opacity[0.15], RGBColor[
-       0.363898, 0.618501, 0.782349]}, BoundaryStyle -> {
-RGBColor[0.363898, 0.618501, 0.782349]}, PlotPoints -> 100];
+     PlotStyle -> 
+      Directive[Opacity[0.15], RGBColor[
+       0.363898, 0.618501, 0.782349]], PlotPoints -> 100, 
+     Mesh -> None];
+   hNPPlot = 
+    RegionPlot3D[ReplaceAll[hNP, w -> Sqrt[Total[xvarSet^2]]] >= 0, 
+     Evaluate[ranges], 
+     PlotStyle -> Directive[{Opacity[0.15], RGBColor[1, 0.75, 0]}], 
+     PlotPoints -> 100, Mesh -> None];
    Export[
     FileNameJoin[{".", "Results", "plots", 
       StringJoin[benchmark, ".pdf"]}], 
-    Show[s1Plot, s2Plot, hPlot, hHomoPlot, FrameLabel -> xvarSet]]
+    Show[s1Plot, s2Plot, hHomoPlot, hNPPlot, FrameLabel -> xvarSet]]
    ];
 
 benchmarkname = "ex2";
@@ -257,7 +264,6 @@ plot = 1; (*whether to plot(=1) or not (=0), better choose 2D \
 examples*)
 plotRange = {{-4, 4}, {-4, 4}}; (*range for plot*)
 verifyResults[benchmarkname, plot, plotRange, verifytimelimit];
-
 
 benchmarkname = "ex3";
 Print["Benchmark:", benchmarkname];
@@ -272,5 +278,5 @@ Print["Benchmark:", benchmarkname];
 verifytimelimit = 60; (*verification time limit*)
 plot = 1; (*whether to plot(=1) or not (=0), better choose 2D \
 examples*)
-plotRange = {{-7, 7}, {-7, 7}, {-7, 7}}; (*range for plot*)
-verifyResults[benchmarkname, plot, plotRange, verifytimelimit];
+plotRange = {{-8, 8}, {-8, 8}, {-8, 8}}; (*range for plot*)
+verifyResults[benchmarkname, plot, plotRange , verifytimelimit];
